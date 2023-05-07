@@ -1,5 +1,6 @@
 #include <iostream>
 #include<string>
+#include <conio.h>
 using namespace std;
 #define sep "\t|"
 const int schedule_size = 99;
@@ -45,9 +46,11 @@ void addTicket(schedule);
 schedule displayFlights();
 schedule displayFlights(string, string);
 schedule displayFlights(string , string , int);
+schedule displayFlights(string, string, int taking_off_time[2], int arrival_time[2], int date[3], int);
 passenger displayPassengers();
 ticket displayTickets();
 
+int input_num();
 //GLOBAL VARS
 
 int userIndex = 0;
@@ -135,19 +138,29 @@ void loginPrompt() {
 	int choice = 1;
 
 	cout << "\nEnter your email: "; cin >> email;
-	cout << "Enter your password: "; cin >> password;
+	cout << "Enter your password: ";
+	int i = 0;
+	char  ch;
+	while ((ch = _getch()) != '\r')
+	{
+		password += ch;
+		cout << '*';
+		i++;
+	}
+
+	cout << endl << password;
 
 	if (!login(email, password))
 	{
+		cout << "\n*********\nInvalid email or password\n\n[1] Retry\n[2] Back to Main Menu\n";
 		do
 		{
-			cout << "\n*********\nInvalid email or password\n\n[1] Retry\n[2] Back to Main Menu\n";
 			cin >> choice;
 			switch (choice)
 			{
-			case 1: { loginPrompt(); break;}
-			case 2: { main(); break;}
-			default: { cout << "\nInvalid choice! Please try again\n"; break;}
+			case 1: { loginPrompt(); break; }
+			case 2: { main(); break; }
+			default: { cout << "\nInvalid choice! Please try again\n"; break; }
 			}
 
 		} while (choice != 1 && choice != 2);
@@ -199,7 +212,15 @@ void adminPrompt()
 	string email, password; int choice;
 
 	cout << "\nEnter your email: "; cin >> email;
-	cout << "Enter your password: "; cin >> password;
+	cout << "Enter your password: ";
+	int i = 0;
+	char  ch;
+	while ((ch = _getch()) != '\r')
+	{
+		password += ch;
+		cout << '*';
+		i++;
+	}
 
 	if (email == "admin@gmail.com" && password == "admin123")
 		admin_access();
@@ -208,16 +229,16 @@ void adminPrompt()
 		cout << "\n**************************************\n";
 		cout << "\nInvalid email or password\n\n[1] Retry\n[2] Back to Main Menu\n";
 	}
-	
+
 
 	do
 	{
 		cin >> choice;
 		switch (choice)
 		{
-		case 1: { adminPrompt(); break;}
-		case 2: { main(); break;}
-		default: { cout << "Invalid choice! Please try again\n"; break;}
+		case 1: { adminPrompt(); break; }
+		case 2: { main(); break; }
+		default: { cout << "Invalid choice! Please try again\n"; break; }
 		}
 
 	} while (choice != 1 && choice != 2);
@@ -255,24 +276,6 @@ void add_schedule() {
 	actual_num++;
 }
 void edit_schedule(int k) {
-	/*bool found = 0;
-	for (int u = 0; u < num; u++)
-		if (k == flights[u].flight_num)
-		{
-			k = u, found = 1;
-			break;
-		}
-	if (!found)
-	{
-		cout << "There isn't flight with this number\nif you want to try again, enter the number of flight you want to edit , else enter -1\n";
-		cin >> k;
-		if (k == -1)
-			return;
-		else
-			edit_schedule(k);
-	}*/
-
-	// The function displayFlights() saves all this hassle of validating existence of flight 
 
 	cout << "\n***********************************************************\n";
 	cout << "\nEDIT OPTIONS:\n\n1.the number of available seats\n2.the date of flight\n3.the departure city\n4.the time of taking off\n5.arrival city\n6.reaching time\n\nHow many things you want to edit ?";
@@ -328,31 +331,8 @@ void edit_schedule(int k) {
 	admin_access();
 }
 void delete_flight(int q) {
-	/*bool ok = false;
-	for (int i = 0; i < num; ++i) {
-		if (q == flights[i].flight_num) {
-			q = i;
-			ok = true;
-			break;
-		}
-	}
-	if (!ok) {
-		cout << " Sorry Number Not found \n If you want to try again, Enter the flight number you want to delete , if you want to skip enter -1 \n";
-		int ans;
-		cin >> ans;
-		if (ans == -1)
-			admin_access();
-		else
-			delete_flight(ans);
 
-	}
-	if (ok)
-		cout << "Done!\n";
-	actual_num--;*/
-
-	// The function displayFlights() saves all this hassle of validating existence of flight 
-
-	flights[getFlightIndex(q)] = { 0,0,0,0,0,"",0,0,"",0,0 }; //0 better because it's the default value for empty array elements + required in display
+	flights[getFlightIndex(q)] = { 0,0,0,0,0,"",0,0,"",0,0 };
 	cout << "\nDeleted successfully!\n";
 
 }
@@ -371,9 +351,6 @@ void admin_access() {
 		add_schedule();
 	else if (i == 2)
 	{
-		//int k;
-		//cout << "Enter the number of the flight\n";
-		//cin >> k;
 		schedule flight = displayFlights();
 		edit_schedule(flight.flight_num);
 	}
@@ -386,34 +363,12 @@ void admin_access() {
 		}
 		else
 		{
-			/*cout << "How many flights do you want to delete? \n";
-			int t;
-			cin >> t;
-			while (t <= 0 || t > actual_num) {
-				cout << "Invalid Number!\n Please Enter Number Between 1 and " << actual_num << " \n";
-				cin >> t;
-			}
-			while (t--) {
-				cout << "\n_______________________________Enter Flight Number To Delete ________________________________\n";
-				int q;
-				cin >> q;
-				delete_flight(q);
-			}*/
-			//Cant use displayFlights() here 
-
 			cout << "\n\n*****DELETE FLIGHT*****\n";
 			schedule flight = displayFlights();
 			delete_flight(flight.flight_num);
 		}
 	}
 	else if (i == 4) main();
-
-	/*cout << "If you want to do another operation enter 1 \nelse enter any other number.\n";
-	int continu;
-	cin >> continu;
-	if (continu == 1)
-		admin_access();*/
-		//Closed Path. What if the user entered any other number? 
 
 	admin_access();
 
@@ -474,16 +429,108 @@ void menuPassenger() {
 					schedule f = displayFlights();
 					addTicket(f);  break;
 				}
+
 				case 2:
 				{
 
-					string dep, arr;
-					cout << "\nEnter departure city: "; cin >> dep;
-					cout << "\nEnter arrival city: "; cin >> arr;
-					schedule f = displayFlights(dep, arr);
+					int counter = 0, wanted_filter, flight_Num = -1, date[3] = {}, taking_off_time[2] = { -1 }, arrival_time[2] = { -1 };
+					string dep = "0", arr = "0";
+					string select_other_filter_too;
+					cout << "Enter the filter which you want to use in searching\1.Flight number\n2.Flight date\n3.Flight path\n4.Taking off time\n5.Arrival time\n";
+					do
+					{
+						wanted_filter = input_num();
+						switch (wanted_filter)
+						{
+						case 1: {
+							cout << "Enter the flight number\n";
+							flight_Num = input_num();
+							counter++;
+							break;
+						}
+						case 2: {
+							cout << "Enter the day\n";
+							do
+							{
+								date[0] = input_num();
+								if (date[0] < 1 || date[0]>31)
+									cout << "Please enter possible number.\n";
+							} while (date[0] < 1 || date[0]>31);
+							cout << "Enter the month\n";
+							do
+							{
+								date[1] = input_num();
+								if (date[1] < 1 || date[1]>12)
+									cout << "Please enter possible number.\n";
+							} while (date[1] < 1 || date[0]>12);
+							cout << "Enter the year\n";
+							do
+							{
+								date[2] = input_num();
+								if (date[2] < 2023)
+									cout << "Please enter possible number.\n";
+							} while (date[2] < 2023);
+							counter++;
+							break;
+						}
+						case 3: {
+							cout << "Enter the depature\n";
+							cin >> dep;
+							cout << "Enter the arrival\n";
+							cin >> arr;
+							counter++;
+							break;
+						}
+						case 4: {
+							cout << "Enter the hour\n";
+							do
+							{
+								taking_off_time[0] = input_num();
+								if (taking_off_time[0] < 0 || taking_off_time[0] > 23)
+									cout << "Please enter possible number.\n";
+							} while (taking_off_time[0] < 0 || taking_off_time[0] > 23);
+							cout << "Enter the minute\n";
+							do
+							{
+								taking_off_time[1] = input_num();
+								if (taking_off_time[1] < 0 || taking_off_time[1] > 59)
+									cout << "Please enter possible number.\n";
+							} while (taking_off_time[1] < 0 || taking_off_time[1] > 59);
+							counter++;
+							break;
+						}
+						case 5: {
+							cout << "Enter the hour\n";
+							do
+							{
+								arrival_time[0] = input_num();
+								if (arrival_time[0] < 0 || arrival_time[0] > 23)
+									cout << "Please enter possible number.\n";
+							} while (arrival_time[0] < 0 || arrival_time[0] > 23);
+							cout << "Enter the minute\n";
+							do
+							{
+								arrival_time[1] = input_num();
+								if (arrival_time[1] < 0 || arrival_time[1] > 59)
+									cout << "Please enter possible number.\n";
+							} while (arrival_time[1] < 0 || arrival_time[1] > 59);
+							counter++;
+							break;
+						}
+						default:
+							cout << "Please enter a correct number";
+						}
+						if (counter > 0)
+						{
+							cout << "If you want to add other filter , enter y or Y\n";
+							cin >> select_other_filter_too;
+						}
+					} while (wanted_filter < 1 || wanted_filter>5 || counter < 1 || select_other_filter_too == "y" || select_other_filter_too == "Y");
+					schedule f = displayFlights(dep, arr, taking_off_time, arrival_time, date, flight_Num);
 					addTicket(f);
 					break;
 				}
+				
 				default:  cout << "\nInvalid choice! Please try again\n"; break;
 				}
 
@@ -662,6 +709,46 @@ schedule displayFlights(string departure, string arrival, int skipFlightNumber) 
 	return flights[flightIndex[choice - 1]];
 
 }
+schedule displayFlights(string departure, string arrival, int taking_off_time[2], int arrival_time[2], int date[3], int flight_num) {
+	int counter = 0, choice, flightIndex[schedule_size];
+
+	cout << "\n**************************************************\n";
+	cout << "Index" << sep << "No." << sep << "Seats" << sep << "Day" << sep << "Month" << sep << "Year" << sep << "From" << sep << "Hour" << sep << "Minute" << sep << "To" << sep << "Hour" << sep << "Minute" << endl;
+	cout << "_________________________________________________________________________________________________" << endl;
+
+	for (int i = 0; i < schedule_size; i++)
+	{
+		if (flights[i].flight_num == 0 || (departure != flights[i].departure_city) || (arrival != flights[i].arrival_city) || (taking_off_time[0] != -1 && (taking_off_time[0] != flights[i].taking_off_hour || taking_off_time[1] != flights[i].taking_off_minute)) || (arrival_time[0] != -1 && (arrival_time[0] != flights[i].reaching_hour || arrival_time[1] != flights[i].reaching_minute)) || (flight_num != -1 && flight_num != flights[i].flight_num) || (date[0] != 0 && (date != flights[i].flight_date)))
+			continue;
+
+		cout << "[" << counter + 1 << "]" << sep << flights[i].flight_num << sep << flights[i].available_seats << sep << flights[i].flight_date[0] << sep << flights[i].flight_date[1] << sep << flights[i].flight_date[2] << sep << flights[i].departure_city << sep << flights[i].taking_off_hour << sep << flights[i].taking_off_minute << sep << flights[i].arrival_city << sep << flights[i].reaching_hour << sep << flights[i].reaching_minute << endl;
+		flightIndex[counter] = i;
+		counter++;
+	}
+
+	if (counter == 0)
+	{
+		cout << "\n*************\nNo Flights Available\n*************\n";
+		if (userIndex)
+			menuPassenger();
+		else
+			admin_access();
+	}
+	else {
+
+		do
+		{
+			cout << "\nFlight Index: ";
+			cin >> choice;
+			if (choice < 1 || choice > counter)
+				cout << "\nInvalid choice! Please retry\n";
+			else break;
+		} while (true);
+	}
+
+	return flights[flightIndex[choice - 1]];
+
+}
 passenger displayPassengers() {
 	int choice;
 
@@ -692,4 +779,34 @@ ticket displayTickets() {
 	cout << "\nTicket Index: ";
 	cin >> choice;
 	return tickets[ticketIndex[choice - 1]];
+}
+
+int input_num()
+{
+	string temp;
+	bool invalid;
+	do
+	{
+		invalid = 0;
+		cin >> temp;
+		for (int i = 0; i < temp.size(); i++)
+		{
+			if (temp[i] < '0' || temp[i]>'9')
+			{
+				cout << "Invalid ! Reenter please.\n";
+				invalid = 1;
+				break;
+			}
+			if (invalid)
+				break;
+		}
+	} while (invalid);
+	int temp_num = 0;
+	for (int i = 0; i < temp.size(); i++)
+	{
+		temp_num += temp[i] - '0';
+		if (i != temp.size() - 1)
+			temp_num *= 10;
+	}
+	return temp_num;
 }
