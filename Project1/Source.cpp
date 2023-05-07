@@ -179,8 +179,6 @@ void loginPrompt() {
 		i++;
 	}
 
-	cout << endl << password;
-
 	if (!login(email, password))
 	{
 		cout << "\n*********\nInvalid email or password\n\n[1] Retry\n[2] Back to Main Menu\n";
@@ -887,7 +885,13 @@ passenger displayPassengers() {
 		cout << "[" << i + 1 << "]" << sep << passengers[i].ID << sep << passengers[i].name << sep << passengers[i].address << sep << passengers[i].phone_number << passengers[i].log << endl;
 	}
 	cout << "\nPassenger Index: ";
-	cin >> choice;
+	do {
+		choice = Check_Input_is_num();
+		if (choice < 1)
+			cout << "\nPlease enter an existing number\n";
+		else
+			break;
+	} while (true);
 	return passengers[choice - 1];
 
 }
@@ -913,7 +917,7 @@ ticket displayTickets() {
 	do {
 		choice = Check_Input_is_num();
 		if (choice < 1)
-			cout << "Please enter an existing number\n";
+			cout << "\nPlease enter an existing number\n";
 		else
 			break;
 	} while (true);
