@@ -616,7 +616,7 @@ void menuPassenger() {
 								date[1] = Check_Input_is_num();
 								if (date[1] < 1 || date[1]>12)
 									cout << "Please enter possible number.\n";
-							} while (date[1] < 1 || date[0]>12);
+							} while (date[1] < 1 || date[1]>12);
 							cout << "Enter the year\n";
 							do
 							{
@@ -887,7 +887,7 @@ passenger displayPassengers() {
 	cout << "\nPassenger Index: ";
 	do {
 		choice = Check_Input_is_num();
-		if (choice < 1)
+		if (choice < 1 || passengers[choice - 1].ID.empty() || choice > passenger_size)
 			cout << "\nPlease enter an existing number\n";
 		else
 			break;
