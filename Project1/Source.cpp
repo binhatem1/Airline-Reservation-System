@@ -79,7 +79,6 @@ ticket tickets[ticket_size]
 };
 
 
-
 int Check_Input_is_num()
 {
 	string temp;
@@ -557,7 +556,7 @@ int getTicketIndex(string ticketNumber) {
 bool welcome = 0;
 void menuPassenger() {
 	int choice;
-	cout << "\n**********************************\n";
+	cout << "\n\n\n**********************************\n";
 	if (!welcome)
 	{
 		cout << "\n\nWelcome, " << passengers[userIndex].name << " :)\n";
@@ -565,7 +564,7 @@ void menuPassenger() {
 	}
 	do
 	{
-		cout << "\n\t[1] Add a new reservation\n\t[2] Cancel reservation\n\t[3] Modify Reservation\n\t[4] Show reservation log\n[5] Log out\n\t";
+		cout << "\n\t[1] Add a new reservation\n\t[2] Cancel reservation\n\t[3] Modify Reservation\n\t[4] Show reservation log\n\t[5] Log out\n\t";
 		choice = Check_Input_is_num();
 		switch (choice)
 		{
@@ -898,7 +897,7 @@ passenger displayPassengers() {
 ticket displayTickets() {
 	int counter = 0, choice, ticketIndex[ticket_size];
 
-	cout << "Index" << sep << "No." << sep << sep << "ID" << sep << "Day" << sep << "Month" << sep << "Year" << sep << "FNo." << endl;
+	cout << "Index" << sep << "No." << sep << "ID" << sep << "Day" << sep << "Month" << sep << "Year" << sep << "FNo." << endl;
 	cout << "___________________________________________________________________________" << endl;
 	for (int i = 0; i < ticket_size; i++)
 	{
@@ -916,7 +915,7 @@ ticket displayTickets() {
 	cout << "\nTicket Index: ";
 	do {
 		choice = Check_Input_is_num();
-		if (choice < 1)
+		if (choice < 1 || choice > counter)
 			cout << "\nPlease enter an existing number\n";
 		else
 			break;
