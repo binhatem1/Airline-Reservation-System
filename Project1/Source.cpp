@@ -199,7 +199,7 @@ void loginPrompt() {
 void signUp()
 {
 	int index;
-	for (int i = 0; i < ticket_size; i++)
+	for (int i = 0; i < passenger_size; i++)
 	{
 		if (passengers[i].ID.empty())
 			index = i;
@@ -421,9 +421,18 @@ void edit_schedule(int k) {
 }
 void delete_flight(int q) {
 
-	// The function displayFlights() saves all this hassle of validating existence of flight 
+	flights[getFlightIndex(q)] = { 0,0,0,0,0,"",0,0,"",0,0 };
+	for (int i = 0; i < ticket_size; i++) {
+		if (tickets[i].flight_num == q) {
+			tickets[i].number = "";
+			tickets[i].passenger_ID = "";
+			tickets[i].flight_date[0] = 0;
+			tickets[i].flight_date[1] = 0;
+			tickets[i].flight_date[2] = 0;
+			tickets[i].flight_num = 0;
 
-	flights[getFlightIndex(q)] = { 0,0,0,0,0,"",0,0,"",0,0 }; //0 better because it's the default value for empty array elements + required in display
+		}
+	}
 	cout << "\nDeleted successfully!\n";
 	admin_access();
 }
@@ -589,7 +598,7 @@ void menuPassenger() {
 					int counter = 0, wanted_filter, flight_Num = -1, date[3] = {}, taking_off_time[2] = { -1 }, arrival_time[2] = { -1 };
 					string dep = "0", arr = "0";
 					string select_other_filter_too;
-					cout << "Enter the filter which you want to use in searching\1.Flight number\n2.Flight date\n3.Flight path\n4.Taking off time\n5.Arrival time\n";
+					cout << "Enter the filter which you want to use in searching\n1.Flight number\n2.Flight date\n3.Flight path\n4.Taking off time\n5.Arrival time\n";
 					do
 					{
 						wanted_filter = Check_Input_is_num();
@@ -741,6 +750,11 @@ void cancelTicket(string ticketNumber) {
 }
 void addTicket(schedule flight) {
 
+	if (flights[getFlightIndex(flight.flight_num)].available_seats == 0)
+	{
+		cout << "\nNo seats available!\nRedirecting to menu\n\n";
+		menuPassenger();
+	}
 	flights[getFlightIndex(flight.flight_num)].available_seats--;
 	int index;
 	for (int i = 0; i < ticket_size; i++)
@@ -750,9 +764,9 @@ void addTicket(schedule flight) {
 	}
 	tickets[index].number = to_string(flight.flight_num) + to_string(flight.available_seats) + to_string(rand() % 10);
 	tickets[index].flight_num = flight.flight_num;
-	tickets[index].flight_date[0] = flight.flight_date[0];
-	tickets[index].flight_date[1] = flight.flight_date[1];
-	tickets[index].flight_date[2] = flight.flight_date[2];
+	tickets[index].flight_date[0] = 8;
+	tickets[index].flight_date[1] = 5;
+	tickets[index].flight_date[2] = 2023;
 	tickets[index].passenger_ID = passengers[userIndex].ID;
 
 	string log = "\nReserved flight " + to_string(flight.flight_num);
