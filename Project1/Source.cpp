@@ -135,12 +135,31 @@ int main() {
 int menu()
 {
 	int choice;
-	cout << "\n\n                    -----------------------" << endl << "                    WELCOME TO FCIS AIRLINE  " << endl << "                    -----------------------";
-	cout << "\n\n\n";
-	cout << "|press 1 to login as admin|";
-	cout << "\n\n|press 2 to login as a passenger|";
-	cout << "\n\n|press 3 to register a new account|";
-	cout << "\n\nplease enter your choice  ";
+	
+	cout << "\n\n\t\t\t\t-----------------------\n\t\t\t\tWELCOME TO FCIS AIRLINE\n\t\t\t\t-----------------------";
+	cout << R"(              _
+              -=\`\
+          |\ ____\_\__
+        -=\c`""""""" "`)
+           `~~~~~/ /~~`
+             -==/ /
+               '-'
+
+               _  _
+              ( `   )_
+             (    )    `)
+           (_   (_ .  _) _)
+                                          _
+                                         (  )
+          _ .                         ( `  ) . )
+        (  _ )_                      (_, _(  ,_)_)
+      (_  _(_ ,)
+ 
+)";
+	cout << "\n\n\t\t\t[1] Login as Admin";
+	cout << "\n\n\t\t\t[2] Login as Passenger";
+	cout << "\n\n\t\t\t[3] Register a new account";
+	cout << "\n\n\t\t\t";
 	do {
 		choice = Check_Input_is_num();
 		if (choice < 1 || choice>3)
@@ -605,7 +624,7 @@ void menuPassenger() {
 	}
 	do
 	{
-		cout << "\n\t[1] Add a new reservation\n\t[2] Cancel reservation\n\t[3] Modify Reservation\n\t[4] Show reservation log\n\t[5] Log out\n\t";
+		cout << "\n\t[1] Add a new reservation\n\t[2] Cancel reservation\n\t[3] Modify Reservation\n\t[4] Show reservation log\n\t[5] Log out\n\n\t";
 		choice = Check_Input_is_num();
 		switch (choice)
 		{
@@ -614,7 +633,7 @@ void menuPassenger() {
 			int x;
 			do
 			{
-				cout << "\n\t[1] List all available flights\n\t[2] Search";
+				cout << "\n\t[1] List all available flights\n\t[2] Search\n\n\t";
 				x = Check_Input_is_num();
 				switch (x)
 				{
@@ -630,7 +649,7 @@ void menuPassenger() {
 					int counter = 0, wanted_filter, flight_Num = -1, date[3] = {}, taking_off_time[2] = { -1 }, arrival_time[2] = { -1 };
 					string dep = "0", arr = "0";
 					string select_other_filter_too;
-					cout << "Enter the filter which you want to use in searching\n1.Flight number\n2.Flight date\n3.Flight path\n4.Taking off time\n5.Arrival time\n";
+					cout << "\n\tEnter the filter which you want to use in searching\n\t1.Flight number\n\t2.Flight date\n\t3.Flight path\n\t4.Taking off time\n\t5.Arrival time\n\n\t";
 					do
 					{
 						wanted_filter = Check_Input_is_num();
