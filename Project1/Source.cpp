@@ -287,7 +287,8 @@ void adminPrompt()
 
 // Varriables of the number of schedules
 int num = 7, actual_num = 7;
-void add_schedule() {
+void add_schedule()
+{
 	cout << "\nEnter the flight number\n";
 	flights[num].flight_num = Check_Input_is_num();
 
@@ -311,7 +312,6 @@ void add_schedule() {
 		if (flights[num].flight_date[1] < 1 || flights[num].flight_date[1]>12)
 			cout << "Please enter a possible number\n";
 	} while (flights[num].flight_date[1] < 1 || flights[num].flight_date[1]>12);
-
 
 	cout << "Enter the year\n";
 	do {
@@ -354,19 +354,16 @@ void add_schedule() {
 		if (flights[num].reaching_minute < 0 || flights[num].reaching_minute > 59)
 			cout << "Please enter a correct number\n";
 	} while (flights[num].reaching_minute < 0 || flights[num].reaching_minute > 59);
-
 	num++;
 	actual_num++;
 	cout << "Addition has been done !\n";
 	admin_access();
 }
 void edit_schedule(int k) {
-	// The function displayFlights() saves all this hassle of validating existence of flight 
-
 	cout << "\n***********************************************************\n";
 	cout << "\nEDIT OPTIONS:\n\n1.the number of available seats\n2.the date of flight\n3.the departure city\n4.the time of taking off\n5.arrival city\n6.reaching time\n\n";
 	k = getFlightIndex(k);
-	char answer;
+	string answer;
 	do
 	{
 		int  operation;
@@ -374,17 +371,35 @@ void edit_schedule(int k) {
 		operation = Check_Input_is_num();
 		if (operation == 1)
 		{
-			cout << "Enter the new number\n";
-			cin >> flights[k].available_seats;
+			cout << "Enter the number of available seats\n";
+			do {
+				flights[k].available_seats = Check_Input_is_num();
+				if (flights[k].available_seats < 0)
+					cout << "Please enter a possible number\n";
+			} while (flights[k].available_seats < 0);
 		}
 		else if (operation == 2)
 		{
-			cout << "Enter the day\n";
-			cin >> flights[k].flight_date[0];
+			cout << "Enter the day of flight\n";
+			do {
+				flights[k].flight_date[0] = Check_Input_is_num();
+				if (flights[k].flight_date[0] < 1 || flights[k].flight_date[0]>31)
+					cout << "Please enter a possible number\n";
+			} while (flights[k].flight_date[0] < 1 || flights[k].flight_date[0]>31);
+
 			cout << "Enter the month\n";
-			cin >> flights[k].flight_date[1];
+			do {
+				flights[k].flight_date[1] = Check_Input_is_num();
+				if (flights[k].flight_date[1] < 1 || flights[k].flight_date[1]>12)
+					cout << "Please enter a possible number\n";
+			} while (flights[k].flight_date[1] < 1 || flights[k].flight_date[1]>12);
+
 			cout << "Enter the year\n";
-			cin >> flights[k].flight_date[2];
+			do {
+				flights[k].flight_date[2] = Check_Input_is_num();
+				if (flights[k].flight_date[2] < 2023)
+					cout << "Please enter a possible number\n";
+			} while (flights[k].flight_date[2] < 2023);
 		}
 		else if (operation == 3)
 		{
@@ -393,10 +408,19 @@ void edit_schedule(int k) {
 		}
 		else if (operation == 4)
 		{
-			cout << "Enter hour\n";
-			cin >> flights[k].taking_off_hour;
-			cout << "Enter minute\n";
-			cin >> flights[k].taking_off_minute;
+			cout << "Enter the taking off hour\n";
+			do {
+				flights[k].taking_off_hour = Check_Input_is_num();
+				if (flights[k].taking_off_hour < 0 || flights[k].taking_off_hour > 23)
+					cout << "Please enter a correct number\n";
+			} while (flights[k].taking_off_hour < 0 || flights[k].taking_off_hour > 23);
+
+			cout << "Enter the taking off minute\n";
+			do {
+				flights[k].taking_off_minute = Check_Input_is_num();
+				if (flights[k].taking_off_minute < 0 || flights[k].taking_off_minute > 59)
+					cout << "Please enter a correct number\n";
+			} while (flights[k].taking_off_minute < 0 || flights[k].taking_off_minute > 59);
 		}
 		else if (operation == 5)
 		{
@@ -405,17 +429,25 @@ void edit_schedule(int k) {
 		}
 		else if (operation == 6)
 		{
-			cout << "Enter hour\n";
-			cin >> flights[k].reaching_hour;
-			cout << "Enter minute\n";
-			cin >> flights[k].reaching_minute;
+			cout << "Enter the reaching hour\n";
+			do {
+				flights[k].reaching_hour = Check_Input_is_num();
+				if (flights[k].reaching_hour < 0 || flights[k].reaching_hour > 23)
+					cout << "Please enter a correct number\n";
+			} while (flights[k].reaching_hour < 0 || flights[k].reaching_hour > 23);
+
+			cout << "Enter the reaching minute\n";
+			do {
+				flights[k].reaching_minute = Check_Input_is_num();
+				if (flights[k].reaching_minute < 0 || flights[k].reaching_minute > 59)
+					cout << "Please enter a correct number\n";
+			} while (flights[k].reaching_minute < 0 || flights[k].reaching_minute > 59);
 		}
 		else
 			cout << "Invalid number !\n";
 		cout << "If you want to edit any other thing, enter y or Y\n";
 		cin >> answer;
-	} while (answer == 'y' || answer == 'Y');
-
+	} while (answer == "y" || answer == "Y");
 	cout << "\nEdited successfully!\n\n";
 	admin_access();
 }
